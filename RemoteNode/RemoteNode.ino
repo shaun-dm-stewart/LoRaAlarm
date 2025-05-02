@@ -11,7 +11,7 @@
 *  History        : A.0 2025-04-21 Creation
 *                 : 1.0 2025-04-23 Integration Test complete
                   : 1.1 2025-04-24 Watchdog function and sensor scan consolidated and moved
-                  :     relay activation out of the timed loop.  Activation now instant
+                  :     relay activation out of the timed loop.  Activation now instant(ish)
 *
 */
 
@@ -109,7 +109,7 @@ void onTxDone(void);
 void onTxTimeout(void);
 void onRxDone(uint8_t* payload, uint16_t size, int16_t rssi, int8_t snr);
 void txPacket(DeviceStates_t msg);
-void SensorScanner(void);
+void sensorScanner(void);
 
 void setup()
 {
