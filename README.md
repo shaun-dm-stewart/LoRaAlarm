@@ -5,7 +5,7 @@ This repository contains the source code for a basic radio alarm system using Lo
 The remote node is a Heltec WiFi Lora V3.2 board.  It supports one digital input. In my case a passive infra red sensor and two digital outputs that can drive relays to operate say an audible alarm and a light.
 
 ## Hub
-The hub is a Heltec V3.2 board that acts as a base station for the remote node.  It relays alarm signal and watchdog information between the remote node and the Console.
+The hub is a Heltec V3.2 board that acts as a base station for the remote node.  It relays alarm signal and watchdog information between the remote node and the UI.
 
 ## UI
 The UI is a Cheap Yellow Display that displays alarm status and allows the user to enable and disable the digital outputs at the remote node.
