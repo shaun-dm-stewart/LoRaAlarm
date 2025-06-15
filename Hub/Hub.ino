@@ -139,7 +139,7 @@ void setup()
     }
 
     // Once ESPNow is successfully Initialised, register the sent data callback
-    // get the status of Trasnmitted packet
+    // get the status of Transnmitted packet
     esp_now_register_send_cb(OnNowDataSent);
 
     // Register peer
@@ -165,6 +165,7 @@ void setup()
     RadioEvents.TxDone = onTxDone;
     RadioEvents.TxTimeout = onTxTimeout;
     RadioEvents.RxDone = onRxDone;
+	RadioEvents.RxTimeout = onRxTimeout;
 
     Radio.Init(&RadioEvents);
     Radio.SetChannel(RF_FREQUENCY);
@@ -223,7 +224,6 @@ void handshake(void)
         previousMillis = currentMillis;
         DeviceStates_t watchdog = IDLE;
         txPacket(watchdog);
-
     }
 }
 
@@ -250,6 +250,13 @@ void onTxDone(void)
 void onTxTimeout(void)
 {
     debugln("TX timeout ...");
+    Radio.Sleep();
+    state = STATE_TX;
+}
+
+void onRxTimeout(void)
+{
+    debugln("RX timeout ...");
     Radio.Sleep();
     state = STATE_TX;
 }
