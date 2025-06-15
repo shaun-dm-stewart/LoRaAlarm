@@ -173,7 +173,7 @@ extern "C" void action_sw_state_changed(lv_event_t* e)
 extern "C" void action_send_states(lv_event_t* e)
 {
     debugln("action_send_states");
-    // Wrtie display buffer to selectedState
+    // Write display buffer to selectedState
     selectedState.nodeAddress = selectedNode;
     selectedState.relay1Enabled = txBuffer.relay1Enabled;
     selectedState.relay2Enabled = txBuffer.relay2Enabled;
@@ -248,7 +248,7 @@ void initialiseEspNow()
     }
 
     // Once ESPNow is successfully Init, we will register for Send CB to
-    // get the status of Trasnmitted packet
+    // get the status of Transmitted packet
     esp_now_register_send_cb(OnDataSent);
 
     // Register peer
@@ -281,7 +281,7 @@ void initialiseGUI()
     disp = lv_tft_espi_create(TFT_HOR_RES, TFT_VER_RES, draw_buf, DRAW_BUF_SIZE);
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_90);
 
-    //Initialize the XPT2046 input device driver
+    //Initialise the XPT2046 input device driver
     indev = lv_indev_create();
     lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(indev, my_touchpad_read);
