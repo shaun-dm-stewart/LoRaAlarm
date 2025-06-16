@@ -46,6 +46,8 @@
 
 #define TX_OUTPUT_POWER                             5        // dBm
 
+#define RX_TIMEOUT_VALUE                            100      // ms
+
 #define LORA_BANDWIDTH                              0         // [0: 125 kHz,
                                                               //  1: 250 kHz,
                                                               //  2: 500 kHz,
@@ -66,6 +68,7 @@
 
 typedef enum
 {
+    IDLING,
     LOWPOWER,
     STATE_RX,
     STATE_TX
@@ -92,7 +95,7 @@ typedef struct
     RelayStates_t relay2Enabled;
 } LoRaPacket;
 
-constexpr long watchdogInterval = 5000;  // interval at which to send watchdog signal
+constexpr long watchdogInterval = 120000;  // interval at which to send watchdog signal
 
 static RadioEvents_t RadioEvents;
 States_t state;
@@ -116,7 +119,7 @@ esp_now_peer_info_t peerInfo;
 void onTxDone(void);
 void onTxTimeout(void);
 void onRxDone(uint8_t* payload, uint16_t size, int16_t rssi, int8_t snr);
-void txPacket(DeviceStates_t msg);
+void txPacket(void);
 // Operation
 void handshake(void);
 void OnNowDataSent(const uint8_t* mac_addr, esp_now_send_status_t status);
@@ -139,7 +142,7 @@ void setup()
     }
 
     // Once ESPNow is successfully Initialised, register the sent data callback
-    // get the status of Transnmitted packet
+    // get the status of Transmitted packet
     esp_now_register_send_cb(OnNowDataSent);
 
     // Register peer
@@ -177,27 +180,30 @@ void setup()
     Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
         LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
         LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
-        0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
-    state = STATE_TX;
+        0, true, 0, 0, LORA_IQ_INVERSION_ON, false);
+    state = IDLING;
 }
 
 void loop()
 {
     switch (state)
     {
-    case STATE_TX:
-        handshake();
-        break;
-    case STATE_RX:
-        debugln("into RX mode");
-        Radio.Rx(0);
-        state = LOWPOWER;
-        break;
-    case LOWPOWER:
-        Radio.IrqProcess();
-        break;
-    default:
-        break;
+        case IDLING:
+			handshake();
+			break;
+        case STATE_TX:
+            txPacket();
+            break;
+        case STATE_RX:
+            debugln("into RX mode");
+            Radio.Rx(RX_TIMEOUT_VALUE);
+            state = LOWPOWER;
+            break;
+        case LOWPOWER:
+            Radio.IrqProcess();
+            break;
+        default:
+            break;
     }
 }
 
@@ -211,7 +217,8 @@ void OnNowDataSent(const uint8_t* mac_addr, esp_now_send_status_t status) {
 void OnNowDataRecv(const uint8_t* mac, const uint8_t* incomingData, int len)
 {
     memcpy(&selectedState, incomingData, sizeof(selectedState));
-    debug("Bytes received: ");
+    //state = STATE_TX;
+    debug("Bytes received from UI: ");
     debugln(len);
 }
 
@@ -222,12 +229,11 @@ void handshake(void)
     if (currentMillis - previousMillis >= watchdogInterval)
     {
         previousMillis = currentMillis;
-        DeviceStates_t watchdog = IDLE;
-        txPacket(watchdog);
+		state = STATE_TX;  // Set state to TX to send a watchdog signal
     }
 }
 
-void txPacket(DeviceStates_t msg)
+void txPacket(void)
 {
     char outBuffer[BUFFER_SIZE];
     outDoc["g"] = selectedState.nodeAddress;
@@ -243,20 +249,20 @@ void txPacket(DeviceStates_t msg)
 
 void onTxDone(void)
 {
-    debugln("TX done ...");
+    debugln("TX done...");
     state = STATE_RX;
 }
 
 void onTxTimeout(void)
 {
-    debugln("TX timeout ...");
+    debugln("TX timeout...");
     Radio.Sleep();
     state = STATE_TX;
 }
 
 void onRxTimeout(void)
 {
-    debugln("RX timeout ...");
+    debugln("RX timeout...");
     Radio.Sleep();
     state = STATE_TX;
 }
@@ -319,5 +325,5 @@ void onRxDone(uint8_t* payload, uint16_t size, int16_t rssi, int8_t snr)
     Serial.printf("\r\nReceived packet \"%s\" with Rssi %d , length %d\r\n", rxpacket, Rssi, rxSize);
 #endif
 
-    state = STATE_TX;
+    state = IDLING;
 }
