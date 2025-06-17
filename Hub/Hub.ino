@@ -44,7 +44,7 @@
 // LoRa stuff
 #define RF_FREQUENCY                                868000000 // Hz
 
-#define TX_OUTPUT_POWER                             5        // dBm
+#define TX_OUTPUT_POWER                             14       // dBm
 
 #define RX_TIMEOUT_VALUE                            100      // ms
 
