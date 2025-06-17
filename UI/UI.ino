@@ -49,7 +49,7 @@
 #define XPT2046_CLK 25
 #define XPT2046_CS 33
 
-constexpr long watchdogInterval = 5000;  // interval at which to send watchdog signal
+constexpr long watchdogInterval = 500;  // interval at which to send watchdog signal
 
 SPIClass touchscreenSpi = SPIClass(VSPI);
 XPT2046_Touchscreen touchscreen(XPT2046_CS, XPT2046_IRQ);

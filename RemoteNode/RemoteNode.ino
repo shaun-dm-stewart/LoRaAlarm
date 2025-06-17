@@ -20,7 +20,7 @@
 #include "LoRaWan_APP.h"
 
 // debug stuff
-#define debug_print  // manages most of the print and println debug, not all but most
+//#define debug_print  // manages most of the print and println debug, not all but most
 
 #if defined debug_print
 #define debug_begin(x)        Serial.begin(x)
@@ -104,7 +104,6 @@ int16_t Rssi, rxSize;
 JsonDocument inDoc;
 JsonDocument outDoc;
 DeviceStates_t alarmState = IDLE;
-
 
 // Function prototypes
 void onTxDone(void);

@@ -29,7 +29,7 @@
 #include "LoRaWan_APP.h"
 
 // debug stuff
-#define debug_print  // manages most of the print and println debug
+//#define debug_print  // manages most of the print and println debug
 
 #if defined debug_print
 #define debug_begin(x)        Serial.begin(x)
@@ -208,18 +208,37 @@ void loop()
 }
 
 // Callback when data is sent
-void OnNowDataSent(const uint8_t* mac_addr, esp_now_send_status_t status) {
-    debug("\r\nLast Packet Send Status:\t");
-    debugln(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+void OnNowDataSent(const uint8_t* mac_addr, esp_now_send_status_t status) 
+{
+    //debug("\r\nLast Packet Send Status:\t");
+    //debugln(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
 
 // Callback when data is received
 void OnNowDataRecv(const uint8_t* mac, const uint8_t* incomingData, int len)
 {
     memcpy(&selectedState, incomingData, sizeof(selectedState));
-    //state = STATE_TX;
-    debug("Bytes received from UI: ");
-    debugln(len);
+    //debug("Bytes received from UI: ");
+    //debugln(len);
+    if (selectedState.relay1Enabled != packetData.relay1Enabled || selectedState.relay2Enabled != packetData.relay2Enabled)
+    {
+        debugln("State chenge requested");
+        state = STATE_TX;
+    }
+
+    esp_err_t result = esp_now_send(broadcastAddress, (uint8_t*)&packetData, sizeof(packetData));
+
+#ifdef debug_print    
+    //if (result == ESP_OK)
+    //{
+    //    Serial.println("Sent with success");
+    //}
+    //else
+    //{
+    //    Serial.println("Error sending the data");
+    //}
+#endif
+
 }
 
 void handshake(void)
@@ -304,21 +323,7 @@ void onRxDone(uint8_t* payload, uint16_t size, int16_t rssi, int8_t snr)
         case IDLE:
         default:
             break;
-
         }
-
-        esp_err_t result = esp_now_send(broadcastAddress, (uint8_t*)&packetData, sizeof(packetData));
-
-#ifdef DEBUG_PRINT     
-        if (result == ESP_OK)
-        {
-            Serial.println("Sent with success");
-        }
-        else
-        {
-            Serial.println("Error sending the data");
-        }
-#endif
     }
 
 #ifdef debug_print
