@@ -159,8 +159,8 @@ void setup()
     esp_now_register_recv_cb(esp_now_recv_cb_t(OnNowDataRecv));
 
     selectedState.nodeAddress = 1;          // This is the address of the remote node you wish to control
-    selectedState.relay1Enabled = ACTIVE;
-    selectedState.relay2Enabled = ACTIVE;
+    selectedState.relay1Enabled = INACTIVE;
+    selectedState.relay2Enabled = INACTIVE;
 
     Mcu.begin(HELTEC_BOARD, SLOW_CLK_TPYE);
     Rssi = 0;
