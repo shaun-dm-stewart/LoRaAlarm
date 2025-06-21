@@ -62,7 +62,7 @@ void create_screen_main() {
             // lblRelay1
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.lbl_relay1 = obj;
-            lv_obj_set_pos(obj, 10, 109);
+            lv_obj_set_pos(obj, 10, 101);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -73,7 +73,7 @@ void create_screen_main() {
             // lblRelay2
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.lbl_relay2 = obj;
-            lv_obj_set_pos(obj, 10, 154);
+            lv_obj_set_pos(obj, 10, 146);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -107,7 +107,7 @@ void create_screen_main() {
             // relay1State
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.relay1_state = obj;
-            lv_obj_set_pos(obj, 213, 112);
+            lv_obj_set_pos(obj, 213, 104);
             lv_obj_set_size(obj, 87, 16);
             lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -119,7 +119,7 @@ void create_screen_main() {
             // relay2State
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.relay2_state = obj;
-            lv_obj_set_pos(obj, 213, 154);
+            lv_obj_set_pos(obj, 213, 146);
             lv_obj_set_size(obj, 87, 16);
             lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -131,7 +131,7 @@ void create_screen_main() {
             // relay1StateLed
             lv_obj_t *obj = lv_led_create(parent_obj);
             objects.relay1_state_led = obj;
-            lv_obj_set_pos(obj, 169, 104);
+            lv_obj_set_pos(obj, 169, 96);
             lv_obj_set_size(obj, 32, 32);
             lv_led_set_color(obj, lv_color_hex(0xffff0000));
             lv_led_set_brightness(obj, 255);
@@ -140,7 +140,7 @@ void create_screen_main() {
             // relay2StateLed
             lv_obj_t *obj = lv_led_create(parent_obj);
             objects.relay2_state_led = obj;
-            lv_obj_set_pos(obj, 169, 146);
+            lv_obj_set_pos(obj, 169, 138);
             lv_obj_set_size(obj, 32, 32);
             lv_led_set_color(obj, lv_color_hex(0xffff0000));
             lv_led_set_brightness(obj, 255);
@@ -153,6 +153,22 @@ void create_screen_main() {
             lv_obj_set_size(obj, 18, 16);
             lv_led_set_color(obj, lv_color_hex(0xfffffc00));
             lv_led_set_brightness(obj, 255);
+        }
+        {
+            lv_obj_t *obj = lv_button_create(parent_obj);
+            lv_obj_set_pos(obj, 207, 180);
+            lv_obj_set_size(obj, 100, 50);
+            lv_obj_add_event_cb(obj, action_load_stats, LV_EVENT_RELEASED, (void *)0);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_label_set_text(obj, "Stats");
+                }
+            }
         }
     }
     
@@ -277,12 +293,64 @@ void create_screen_settings() {
 void tick_screen_settings() {
 }
 
+void create_screen_stats() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.stats = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 240);
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_button_create(parent_obj);
+            lv_obj_set_pos(obj, 10, 180);
+            lv_obj_set_size(obj, 100, 50);
+            lv_obj_add_event_cb(obj, action_load_main, LV_EVENT_RELEASED, (void *)0);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_label_set_text(obj, "Main");
+                }
+            }
+        }
+        {
+            // lblRetries
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.lbl_retries = obj;
+            lv_obj_set_pos(obj, 10, 20);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xff00ff00), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_label_set_text(obj, "Retries");
+        }
+        {
+            // lblRetryCount
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.lbl_retry_count = obj;
+            lv_obj_set_pos(obj, 169, 20);
+            lv_obj_set_size(obj, 116, LV_SIZE_CONTENT);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xff00ff00), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_label_set_text(obj, "Retry Count");
+        }
+    }
+    
+    tick_screen_stats();
+}
+
+void tick_screen_stats() {
+}
+
 
 
 typedef void (*tick_screen_func_t)();
 tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_main,
     tick_screen_settings,
+    tick_screen_stats,
 };
 void tick_screen(int screen_index) {
     tick_screen_funcs[screen_index]();
@@ -298,4 +366,5 @@ void create_screens() {
     
     create_screen_main();
     create_screen_settings();
+    create_screen_stats();
 }

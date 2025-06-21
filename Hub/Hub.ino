@@ -93,6 +93,7 @@ typedef struct
     DeviceStates_t alarmState;
     RelayStates_t relay1Enabled;
     RelayStates_t relay2Enabled;
+    unsigned long rxTimeoutCount;
 } LoRaPacket;
 
 constexpr long watchdogInterval = 120000;  // interval at which to send watchdog signal
@@ -282,6 +283,7 @@ void onTxTimeout(void)
 void onRxTimeout(void)
 {
     debugln("RX timeout...");
+	packetData.rxTimeoutCount++;
     Radio.Sleep();
     state = STATE_TX;
 }
@@ -299,7 +301,8 @@ void onRxDone(uint8_t* payload, uint16_t size, int16_t rssi, int8_t snr)
 
     DeserializationError error = deserializeJson(inDoc, rxpacket);
 
-    if (error) {
+    if (error) 
+    {
         debugln(F("deserializeJson() failed: "));
         debugln(error.c_str());
     }

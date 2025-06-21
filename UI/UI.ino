@@ -104,6 +104,7 @@ typedef struct
     DeviceStates_t alarmState;
     RelayStates_t relay1Enabled;
     RelayStates_t relay2Enabled;
+    unsigned long rxTimeoutCount;
 } LoRaPacket;
 
 LoRaPacket txBuffer;
@@ -127,6 +128,15 @@ extern "C" void action_load_main(lv_event_t* e)
     debugln("action_load_main");
     loadScreen(SCREEN_ID_MAIN);
 }
+
+#include "actions.h"
+
+extern "C" void action_load_stats(lv_event_t* e) 
+{
+    debugln("action_load_main");
+    loadScreen(SCREEN_ID_STATS);
+}
+
 
 extern "C" void action_sw_state_changed(lv_event_t* e)
 {
@@ -322,7 +332,7 @@ void UpdateDisplay()
     debugln("updateDisplay");
 
     static bool ledOn = true;
-    char nodeAddress[BUFFER_SIZE];
+    char tempBuffer[BUFFER_SIZE];
 
     if (ledOn)
     {
@@ -335,9 +345,11 @@ void UpdateDisplay()
         ledOn = true;
     }
 
-    sprintf(nodeAddress, "%u", incomingPacket.nodeAddress);
-    lv_label_set_text(objects.lbl_node_id, nodeAddress);
-    lv_label_set_text(objects.lbl_node_id_1, nodeAddress);
+    sprintf(tempBuffer, "%u", incomingPacket.nodeAddress);
+    lv_label_set_text(objects.lbl_node_id, tempBuffer);
+    lv_label_set_text(objects.lbl_node_id_1, tempBuffer);
+    sprintf(tempBuffer, "%lu", incomingPacket.rxTimeoutCount);
+	lv_label_set_text(objects.lbl_retry_count, tempBuffer);
 
     switch (incomingPacket.alarmState)
     {

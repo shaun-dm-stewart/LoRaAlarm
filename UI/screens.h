@@ -10,6 +10,7 @@ extern "C" {
 typedef struct _objects_t {
     lv_obj_t *main;
     lv_obj_t *settings;
+    lv_obj_t *stats;
     lv_obj_t *lbl_alarm_state;
     lv_obj_t *led_state;
     lv_obj_t *lbl_relay1;
@@ -27,6 +28,8 @@ typedef struct _objects_t {
     lv_obj_t *lbl_relay1_2;
     lv_obj_t *lbl_node_1;
     lv_obj_t *lbl_node_id_1;
+    lv_obj_t *lbl_retries;
+    lv_obj_t *lbl_retry_count;
 } objects_t;
 
 extern objects_t objects;
@@ -34,6 +37,7 @@ extern objects_t objects;
 enum ScreensEnum {
     SCREEN_ID_MAIN = 1,
     SCREEN_ID_SETTINGS = 2,
+    SCREEN_ID_STATS = 3,
 };
 
 void create_screen_main();
@@ -41,6 +45,9 @@ void tick_screen_main();
 
 void create_screen_settings();
 void tick_screen_settings();
+
+void create_screen_stats();
+void tick_screen_stats();
 
 void tick_screen_by_id(enum ScreensEnum screenId);
 void tick_screen(int screen_index);
