@@ -1,7 +1,7 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[AlarmUI.eez-project]:/userPages/0",
-    "selectedActionObject": "[AlarmUI.eez-project]:/actions/2",
+    "selectedUserPageObject": "[AlarmUI.eez-project]:/userPages/2",
+    "selectedActionObject": "[AlarmUI.eez-project]:/actions/4",
     "selectedGlobalVariableObject": "[AlarmUI.eez-project]:/variables/globalVariables/0",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
@@ -72,6 +72,8 @@
           },
           {
             "type": "border",
+            "selected": 0,
+            "size": 47.5,
             "location": "bottom",
             "children": [
               {
@@ -118,7 +120,7 @@
             {
               "type": "row",
               "id": "#c86b913a-c180-4ac8-95d8-22b3b51f3a81",
-              "weight": 15,
+              "weight": 19.033332982834043,
               "children": [
                 {
                   "type": "tabset",
@@ -150,7 +152,8 @@
                       "enableClose": false,
                       "icon": "material:code"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -189,7 +192,7 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "weight": 65,
+              "weight": 59.48896939737929,
               "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
@@ -209,26 +212,25 @@
                 {
                   "type": "tab",
                   "id": "#f68f7044-245d-4d87-b3a3-fd5b4e5de764",
-                  "name": "Main",
+                  "name": "Stats",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[AlarmUI.eez-project]:/userPages/0",
+                    "objectPath": "[AlarmUI.eez-project]:/userPages/2",
                     "permanent": false
                   },
                   "icon": "svg:page"
                 }
-              ],
-              "active": true
+              ]
             },
             {
               "type": "row",
               "id": "#a7191404-a4e8-4627-b8c9-3fe6e3e3a319",
-              "weight": 20,
+              "weight": 21.477697619786625,
               "children": [
                 {
                   "type": "tabset",
                   "id": "#fd1e031e-19f8-4bf2-9ae4-f04f8ab0ef9a",
-                  "weight": 2,
+                  "weight": 2.1180811808118083,
                   "children": [
                     {
                       "type": "tab",
@@ -243,7 +245,7 @@
                 {
                   "type": "tabset",
                   "id": "#6dcbda66-9bf4-4833-be88-c9404c2b4ad4",
-                  "weight": 1,
+                  "weight": 0.8819188191881919,
                   "children": [
                     {
                       "type": "tab",
@@ -999,17 +1001,23 @@
       "selection": {
         "0": {
           "0": {},
+          "1": {},
           "2": {},
           "3": {},
+          "4": {},
           "5": {},
           "6": {},
-          "10": {}
+          "7": {},
+          "8": {},
+          "9": {},
+          "10": {},
+          "12": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -400,
-          "y": -240
+          "x": -523,
+          "y": -288
         },
         "scale": 1
       },
@@ -1036,8 +1044,32 @@
       },
       "transform": {
         "translate": {
-          "x": -160,
-          "y": -120
+          "x": -521,
+          "y": -274
+        },
+        "scale": 1
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[AlarmUI.eez-project]:/userPages/2[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "0": {}
+          },
+          "1": {},
+          "2": {}
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -520,
+          "y": -293
         },
         "scale": 1
       },
@@ -1063,7 +1095,10 @@
   "selectedStylePropertyName": "",
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
-  "lvglExpandedPropertiesGroup": [],
+  "lvglExpandedPropertiesGroup": [
+    "BACKGROUND",
+    "TEXT"
+  ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
   "flowZoom": 1,
