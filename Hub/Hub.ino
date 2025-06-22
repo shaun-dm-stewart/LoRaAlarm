@@ -94,6 +94,7 @@ typedef struct
     RelayStates_t relay1Enabled;
     RelayStates_t relay2Enabled;
     unsigned long rxTimeoutCount;
+    int16_t signalStrength;
 } LoRaPacket;
 
 constexpr long watchdogInterval = 120000;  // interval at which to send watchdog signal
@@ -313,6 +314,7 @@ void onRxDone(uint8_t* payload, uint16_t size, int16_t rssi, int8_t snr)
         packetData.alarmState = static_cast<DeviceStates_t>(inDoc["m"]);
         packetData.relay1Enabled = static_cast<RelayStates_t>(inDoc["r1"]);
         packetData.relay2Enabled = static_cast<RelayStates_t>(inDoc["r2"]);
+		packetData.signalStrength = rssi;
 
         switch (packetData.alarmState)
         {

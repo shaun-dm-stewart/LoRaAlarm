@@ -105,6 +105,7 @@ typedef struct
     RelayStates_t relay1Enabled;
     RelayStates_t relay2Enabled;
     unsigned long rxTimeoutCount;
+    int16_t signalStrength;
 } LoRaPacket;
 
 LoRaPacket txBuffer;
@@ -128,8 +129,6 @@ extern "C" void action_load_main(lv_event_t* e)
     debugln("action_load_main");
     loadScreen(SCREEN_ID_MAIN);
 }
-
-#include "actions.h"
 
 extern "C" void action_load_stats(lv_event_t* e) 
 {
@@ -350,6 +349,8 @@ void UpdateDisplay()
     lv_label_set_text(objects.lbl_node_id_1, tempBuffer);
     sprintf(tempBuffer, "%lu", incomingPacket.rxTimeoutCount);
 	lv_label_set_text(objects.lbl_retry_count, tempBuffer);
+    sprintf(tempBuffer, "%d", incomingPacket.signalStrength);
+    lv_label_set_text(objects.lbl_rssi, tempBuffer);
 
     switch (incomingPacket.alarmState)
     {

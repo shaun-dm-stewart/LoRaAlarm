@@ -30,6 +30,8 @@ typedef struct _objects_t {
     lv_obj_t *lbl_node_id_1;
     lv_obj_t *lbl_retries;
     lv_obj_t *lbl_retry_count;
+    lv_obj_t *lbl_retries_1;
+    lv_obj_t *lbl_rssi;
 } objects_t;
 
 extern objects_t objects;
