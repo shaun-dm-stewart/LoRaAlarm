@@ -22,16 +22,18 @@ typedef struct _objects_t {
     lv_obj_t *relay1_state_led;
     lv_obj_t *relay2_state_led;
     lv_obj_t *led_watchdog;
-    lv_obj_t *sw_relay1;
-    lv_obj_t *sw_relay2;
     lv_obj_t *lbl_relay1_1;
     lv_obj_t *lbl_relay1_2;
     lv_obj_t *lbl_node_1;
+    lv_obj_t *sw_relay1;
+    lv_obj_t *sw_relay2;
     lv_obj_t *lbl_node_id_1;
     lv_obj_t *lbl_retries;
     lv_obj_t *lbl_retry_count;
     lv_obj_t *lbl_retries_1;
     lv_obj_t *lbl_rssi;
+    lv_obj_t *lbl_retries_2;
+    lv_obj_t *lbl_activations;
 } objects_t;
 
 extern objects_t objects;

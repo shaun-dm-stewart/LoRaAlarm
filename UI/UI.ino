@@ -48,6 +48,11 @@
 #define XPT2046_MISO 39
 #define XPT2046_CLK 25
 #define XPT2046_CS 33
+#define TFT_BACK_LIGHT_PIN 21
+
+#define TFT_BACKLIGHT_CHANNEL 0
+#define TFT_BACKLIGHT_FREQUENCY 12000
+#define TFT_BACKLIGHT_RESOLUTION_BITS 8
 
 constexpr long watchdogInterval = 500;  // interval at which to send watchdog signal
 
@@ -83,6 +88,9 @@ void OnDataRecv(const uint8_t* mac, const uint8_t* incomingData, int len);
 void UpdateDisplay(void);
 void my_disp_flush(lv_display_t* disp, const lv_area_t* area, uint8_t* px_map);
 void my_touchpad_read(lv_indev_t* indev, lv_indev_data_t* data);
+void turn_backlight_off(void);
+void turn_backlight_on(void);
+
 lv_display_t* disp;
 
 typedef enum
@@ -136,7 +144,6 @@ extern "C" void action_load_stats(lv_event_t* e)
     loadScreen(SCREEN_ID_STATS);
 }
 
-
 extern "C" void action_sw_state_changed(lv_event_t* e)
 {
     debugln("action_sw_state_changed");
@@ -188,6 +195,13 @@ extern "C" void action_send_states(lv_event_t* e)
     selectedState.relay2Enabled = txBuffer.relay2Enabled;
 }
 
+#include "actions.h"
+
+extern "C" void action_show_backlight(lv_event_t* e)
+{
+    // TODO: Implement action show_backlight here
+}
+
 void sendData()
 {
     debugln("sendData");
@@ -216,6 +230,8 @@ void setup()
 {
     // Initialise Serial Monitor
     debug_begin(115200);
+    pinMode(TFT_BACK_LIGHT_PIN, OUTPUT);
+    ledcAttachChannel(TFT_BACK_LIGHT_PIN, TFT_BACKLIGHT_FREQUENCY, TFT_BACKLIGHT_RESOLUTION_BITS, TFT_BACKLIGHT_CHANNEL);
     initialiseEspNow();
     initialiseGUI();
 }
@@ -330,12 +346,14 @@ void UpdateDisplay()
 {
     debugln("updateDisplay");
 
+	static bool alarmTriggered = false;
+	static uint32_t triggers = 0;   
     static bool ledOn = true;
     char tempBuffer[BUFFER_SIZE];
 
     if (ledOn)
     {
-        lv_led_set_color(objects.led_watchdog, lv_color_hex(0xfffc0000));
+        lv_led_set_color(objects.led_watchdog, lv_color_hex(0xff00ff00));
         ledOn = false;
     }
     else
@@ -344,22 +362,27 @@ void UpdateDisplay()
         ledOn = true;
     }
 
-    sprintf(tempBuffer, "%u", incomingPacket.nodeAddress);
-    lv_label_set_text(objects.lbl_node_id, tempBuffer);
-    lv_label_set_text(objects.lbl_node_id_1, tempBuffer);
-    sprintf(tempBuffer, "%lu", incomingPacket.rxTimeoutCount);
-	lv_label_set_text(objects.lbl_retry_count, tempBuffer);
-    sprintf(tempBuffer, "%d", incomingPacket.signalStrength);
-    lv_label_set_text(objects.lbl_rssi, tempBuffer);
-
     switch (incomingPacket.alarmState)
     {
     case SET:
+        if (!alarmTriggered)
+        {
+            triggers++;
+            alarmTriggered = true;
+            debug("Alarm triggered: ");
+            debugln(triggers);
+		}
         lv_led_set_color(objects.led_state, lv_color_hex(0xffff0000));
         break;
     case CLEAR:
     case WATCHDOG:
         lv_led_set_color(objects.led_state, lv_color_hex(0xff00ff00));
+        if (alarmTriggered)
+        {
+            debug("Alarm cleared: ");
+            debugln(triggers);
+            alarmTriggered = false;
+		}
         break;
     default:
         lv_led_set_color(objects.led_state, lv_color_hex(0xff0000ff));
@@ -389,6 +412,17 @@ void UpdateDisplay()
         lv_label_set_text(objects.relay2_state, "Disabled");
         break;
     }
+
+    sprintf(tempBuffer, "%u", incomingPacket.nodeAddress);
+    lv_label_set_text(objects.lbl_node_id, tempBuffer);
+    lv_label_set_text(objects.lbl_node_id_1, tempBuffer);
+    sprintf(tempBuffer, "%lu", incomingPacket.rxTimeoutCount);
+    lv_label_set_text(objects.lbl_retry_count, tempBuffer);
+    sprintf(tempBuffer, "%d", incomingPacket.signalStrength);
+    lv_label_set_text(objects.lbl_rssi, tempBuffer);
+    sprintf(tempBuffer, "%lu", triggers);
+    lv_label_set_text(objects.lbl_activations, tempBuffer);
+
     espNowBusy = false;   // We can resume updating the display
 }
 
@@ -418,4 +452,15 @@ void my_touchpad_read(lv_indev_t* indev, lv_indev_data_t* data)
     else {
         data->state = LV_INDEV_STATE_RELEASED;
     }
+}
+
+void turn_backlight_off(void)
+{
+    ledcWrite(TFT_BACKLIGHT_CHANNEL, 0); // Turn off PWM
+}
+
+void turn_backlight_on(void)
+{
+    int dutyCycle = (int)round(255 * 1.00); // Example: Set to 75% brightness
+    ledcWrite(TFT_BACKLIGHT_CHANNEL, dutyCycle);
 }
