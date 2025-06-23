@@ -55,6 +55,8 @@
 #define TFT_BACKLIGHT_RESOLUTION_BITS 8
 
 constexpr long watchdogInterval = 500;  // interval at which to send watchdog signal
+constexpr long saverInterval = 120000; // interval to switch to saver screen
+uint32_t saverMillis = 0;
 
 SPIClass touchscreenSpi = SPIClass(VSPI);
 XPT2046_Touchscreen touchscreen(XPT2046_CS, XPT2046_IRQ);
@@ -125,23 +127,41 @@ uint8_t broadcastAddress[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 esp_now_peer_info_t peerInfo;
 bool espNowBusy = false;
 unsigned short selectedNode = 1;    // Hard code 1 for now but we may want to increase the node count in the future
+bool saverActive = false; // Used to track if the saver screen is active
+ScreensEnum screenID = SCREEN_ID_MAIN;
+
+void processScreenRequest()
+{
+    saverActive = false; // Reset saver active state
+    saverMillis = millis(); // Reset saver timer
+    loadScreen(screenID);
+}
+
+extern "C" void action_load_last(lv_event_t* e) 
+{
+	processScreenRequest(); // Load the last screen requested
+    debugln("action_load_last_page");
+}
 
 extern "C" void action_load_settings(lv_event_t* e)
 {
+    screenID = SCREEN_ID_SETTINGS; // Set the screen ID to settings
+    processScreenRequest();
     debugln("action_load_settings");
-    loadScreen(SCREEN_ID_SETTINGS);
 }
 
 extern "C" void action_load_main(lv_event_t* e)
 {
+	screenID = SCREEN_ID_MAIN; // Set the screen ID to main
+    processScreenRequest();
     debugln("action_load_main");
-    loadScreen(SCREEN_ID_MAIN);
 }
 
 extern "C" void action_load_stats(lv_event_t* e) 
 {
-    debugln("action_load_main");
-    loadScreen(SCREEN_ID_STATS);
+	screenID = SCREEN_ID_STATS; // Set the screen ID to stats
+    processScreenRequest();
+    debugln("action_load_stats");
 }
 
 extern "C" void action_sw_state_changed(lv_event_t* e)
@@ -195,11 +215,18 @@ extern "C" void action_send_states(lv_event_t* e)
     selectedState.relay2Enabled = txBuffer.relay2Enabled;
 }
 
-#include "actions.h"
-
 extern "C" void action_show_backlight(lv_event_t* e)
 {
     // TODO: Implement action show_backlight here
+}
+
+void loadScreenSaver()
+{
+    if(!saverActive)
+    {
+		saverActive = true;
+        loadScreen(SCREEN_ID_SAVER);
+    }
 }
 
 void sendData()
@@ -249,6 +276,12 @@ void loop()
         previousMillis = currentMillis;
         sendData();
     }
+
+    if(currentMillis - saverMillis >= saverInterval)
+    {
+        saverMillis = currentMillis;
+        loadScreenSaver(); // Load the saver screen after 60 seconds of inactivity
+	}
 
     lv_tick_inc(millis() - lastTick);  //Update the tick timer. Tick is new for LVGL 9
 
@@ -369,6 +402,9 @@ void UpdateDisplay()
         {
             triggers++;
             alarmTriggered = true;
+			saverActive = false; // Reset saver active state
+			screenID = SCREEN_ID_MAIN; // Set the screen ID to main
+            loadScreen(screenID);
             debug("Alarm triggered: ");
             debugln(triggers);
 		}

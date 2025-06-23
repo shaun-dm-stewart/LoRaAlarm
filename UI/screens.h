@@ -11,6 +11,7 @@ typedef struct _objects_t {
     lv_obj_t *main;
     lv_obj_t *settings;
     lv_obj_t *stats;
+    lv_obj_t *saver;
     lv_obj_t *lbl_alarm_state;
     lv_obj_t *led_state;
     lv_obj_t *lbl_relay1;
@@ -42,6 +43,7 @@ enum ScreensEnum {
     SCREEN_ID_MAIN = 1,
     SCREEN_ID_SETTINGS = 2,
     SCREEN_ID_STATS = 3,
+    SCREEN_ID_SAVER = 4,
 };
 
 void create_screen_main();
@@ -52,6 +54,9 @@ void tick_screen_settings();
 
 void create_screen_stats();
 void tick_screen_stats();
+
+void create_screen_saver();
+void tick_screen_saver();
 
 void tick_screen_by_id(enum ScreensEnum screenId);
 void tick_screen(int screen_index);

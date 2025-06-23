@@ -429,6 +429,20 @@ void create_screen_stats() {
 void tick_screen_stats() {
 }
 
+void create_screen_saver() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.saver = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 240);
+    lv_obj_add_event_cb(obj, action_load_last, LV_EVENT_RELEASED, (void *)0);
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    
+    tick_screen_saver();
+}
+
+void tick_screen_saver() {
+}
+
 
 
 typedef void (*tick_screen_func_t)();
@@ -436,6 +450,7 @@ tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_main,
     tick_screen_settings,
     tick_screen_stats,
+    tick_screen_saver,
 };
 void tick_screen(int screen_index) {
     tick_screen_funcs[screen_index]();
@@ -452,4 +467,5 @@ void create_screens() {
     create_screen_main();
     create_screen_settings();
     create_screen_stats();
+    create_screen_saver();
 }
