@@ -165,6 +165,14 @@
       "localVariables": [],
       "userProperties": [],
       "name": "showBacklight"
+    },
+    {
+      "objID": "2fcb719c-680f-4329-c537-e229adadfd7e",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "loadLast"
     }
   ],
   "userPages": [
@@ -2135,6 +2143,71 @@
       "localVariables": [],
       "userProperties": [],
       "name": "Stats",
+      "left": 0,
+      "top": 0,
+      "width": 320,
+      "height": 240,
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
+    },
+    {
+      "objID": "1a2260b8-d74e-46b4-d7f5-135f6bc37a43",
+      "components": [
+        {
+          "objID": "aabc202c-5ed3-4fdb-9de8-776303136994",
+          "type": "LVGLScreenWidget",
+          "left": 0,
+          "top": 0,
+          "width": 320,
+          "height": 240,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "c287d46a-2fef-4eb9-e5b0-d26fe3bd658f",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "d3ee1af9-8974-4961-f882-bcc9c831c81a",
+              "eventName": "RELEASED",
+              "handlerType": "action",
+              "action": "loadLast",
+              "userData": 0
+            }
+          ],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "widgetFlags": "CLICKABLE|PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "c46c5fab-223f-4882-ddae-72aedfe996ef",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "bg_color": "#000000"
+                }
+              }
+            }
+          },
+          "groupIndex": 0
+        }
+      ],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "Saver",
       "left": 0,
       "top": 0,
       "width": 320,
