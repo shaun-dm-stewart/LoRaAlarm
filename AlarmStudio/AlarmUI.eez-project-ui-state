@@ -1,7 +1,7 @@
 {
   "navigation": {
     "selectedUserPageObject": "[AlarmUI.eez-project]:/userPages/2",
-    "selectedActionObject": "[AlarmUI.eez-project]:/actions/4",
+    "selectedActionObject": "[AlarmUI.eez-project]:/actions/5",
     "selectedGlobalVariableObject": "[AlarmUI.eez-project]:/variables/globalVariables/0",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
@@ -152,8 +152,7 @@
                       "enableClose": false,
                       "icon": "material:code"
                     }
-                  ],
-                  "active": true
+                  ]
                 },
                 {
                   "type": "tabset",
@@ -220,7 +219,8 @@
                   },
                   "icon": "svg:page"
                 }
-              ]
+              ],
+              "active": true
             },
             {
               "type": "row",
@@ -1000,18 +1000,11 @@
     "[AlarmUI.eez-project]:/userPages/0[flow-state]": {
       "selection": {
         "0": {
-          "0": {},
+          "0": {
+            "$selected": true
+          },
           "1": {},
-          "2": {},
-          "3": {},
-          "4": {},
-          "5": {},
-          "6": {},
-          "7": {},
-          "8": {},
-          "9": {},
-          "10": {},
-          "12": {}
+          "2": {}
         }
       },
       "transform": {
@@ -1034,17 +1027,16 @@
           "0": {
             "0": {}
           },
-          "1": {},
+          "1": {
+            "$selected": true
+          },
           "2": {},
-          "3": {},
-          "4": {},
-          "6": {},
-          "7": {}
+          "3": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -521,
+          "x": -462.58,
           "y": -274
         },
         "scale": 1
@@ -1063,7 +1055,9 @@
             "0": {}
           },
           "1": {},
-          "2": {}
+          "7": {
+            "$selected": true
+          }
         }
       },
       "transform": {
