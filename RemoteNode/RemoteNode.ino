@@ -10,8 +10,8 @@
 *  Version        :  1.1
 *  History        : A.0 2025-04-21 Creation
 *                 : 1.0 2025-04-23 Integration Test complete
-                  : 1.1 2025-04-24 Watchdog function and sensor scan consolidated and moved
-                  :     relay activation out of the timed loop.  Activation now instant(ish)
+*                 : 1.1 2025-04-24 Watchdog function and sensor scan consolidated and moved
+*                 :     relay activation out of the timed loop.  Activation now instant(ish)
 *
 */
 
@@ -62,6 +62,7 @@
 
 typedef enum
 {
+    IDLING,
     LOWPOWER,
     STATE_RX,
     STATE_TX
@@ -71,7 +72,8 @@ typedef enum
 {
     IDLE,
     CLEAR,
-    SET
+    SET,
+    TEST
 } DeviceStates_t;
 
 typedef enum
@@ -99,7 +101,6 @@ constexpr unsigned short thisNodeAddress = 1;
 LoRaPacket packetData;
 static RadioEvents_t RadioEvents;
 States_t state;
-bool sleepMode = false;
 int16_t Rssi, rxSize;
 JsonDocument inDoc;
 JsonDocument outDoc;
@@ -171,14 +172,21 @@ void loop()
 
 void sensorScanner(void)
 {
-    static unsigned long previousMillis = 0;
     static bool alarmActive = false;
-    unsigned long currentMillis = millis();
-    bool trigger = (digitalRead(SENSORPIN) == 1) ? true : false;
+    bool trigger;
+    
+    if (packetData.alarmState == TEST)
+    {
+        trigger = true;
+	}
+    else
+    {
+        // Read the PIR sensor state
+        trigger = (digitalRead(SENSORPIN) == HIGH) ? true : false;
+	}
 
     if (trigger == true)
     {
-        debugln("Sensor activated");
         if (alarmActive == false)
         {
             alarmActive = true;
@@ -257,7 +265,7 @@ void onRxDone(uint8_t* payload, uint16_t size, int16_t rssi, int8_t snr)
         packetData.nodeAddress = inDoc["g"];
         if (packetData.nodeAddress == thisNodeAddress)
         {
-            //packetData.alarmState = static_cast<DeviceStates_t>(inDoc["m"]);
+            packetData.alarmState = static_cast<DeviceStates_t>(inDoc["m"]);
             packetData.relay1Enabled = static_cast<RelayStates_t>(inDoc["r1"]);
             packetData.relay2Enabled = static_cast<RelayStates_t>(inDoc["r2"]);
             debug("Relay 1 state: ");

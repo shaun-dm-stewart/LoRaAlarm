@@ -23,7 +23,7 @@
 //#include "D:/Projects/Arduino/libraries/lvgl/src/display/lv_display_private.h"
 
 // debug stuff
-// #define debug_print  // manages most of the print and println debug
+//#define debug_print  // manages most of the print and println debug
 
 #if defined debug_print
 #define debug_begin(x)        Serial.begin(x)
@@ -97,9 +97,10 @@ lv_display_t* disp;
 
 typedef enum
 {
-    WATCHDOG,
+    IDLE,
     CLEAR,
-    SET
+    SET,
+    TEST
 } DeviceStates_t;
 
 typedef enum
@@ -181,16 +182,16 @@ extern "C" void action_sw_state_changed(lv_event_t* e)
         {
             if (isChecked)
             {
-                debugln("Relay 1 enabled");
+                Serial.println("Relay 1 enabled");
                 txBuffer.relay1Enabled = ACTIVE;
             }
             else
             {
-                debugln("Relay 1 disabled");
+                Serial.println("Relay 1 disabled");
                 txBuffer.relay1Enabled = INACTIVE;
             }
         }
-        else
+		else if (swObj == objects.sw_relay2)
         {
             if (isChecked)
             {
@@ -199,8 +200,21 @@ extern "C" void action_sw_state_changed(lv_event_t* e)
             }
             else
             {
-                debugln("Relay 2 disabled");
+                Serial.println("Relay 2 disabled");
                 txBuffer.relay2Enabled = INACTIVE;
+            }
+        }
+        else
+        { 
+            if (isChecked)
+            {
+                debugln("Alarm state: TEST");
+                txBuffer.alarmState = TEST;
+            }
+            else
+            {
+                debugln("ALARM State: NOMINAL");
+                txBuffer.alarmState = CLEAR;
             }
         }
     }
@@ -213,6 +227,7 @@ extern "C" void action_send_states(lv_event_t* e)
     selectedState.nodeAddress = selectedNode;
     selectedState.relay1Enabled = txBuffer.relay1Enabled;
     selectedState.relay2Enabled = txBuffer.relay2Enabled;
+	selectedState.alarmState = txBuffer.alarmState;
 }
 
 extern "C" void action_show_backlight(lv_event_t* e)
@@ -411,7 +426,7 @@ void UpdateDisplay()
         lv_led_set_color(objects.led_state, lv_color_hex(0xffff0000));
         break;
     case CLEAR:
-    case WATCHDOG:
+    case IDLE:
         lv_led_set_color(objects.led_state, lv_color_hex(0xff00ff00));
         if (alarmTriggered)
         {

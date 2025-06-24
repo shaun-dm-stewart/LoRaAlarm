@@ -78,7 +78,8 @@ typedef enum
 {
     IDLE,
     CLEAR,
-    SET
+    SET,
+    TEST
 } DeviceStates_t;
 
 typedef enum
@@ -220,9 +221,8 @@ void OnNowDataSent(const uint8_t* mac_addr, esp_now_send_status_t status)
 void OnNowDataRecv(const uint8_t* mac, const uint8_t* incomingData, int len)
 {
     memcpy(&selectedState, incomingData, sizeof(selectedState));
-    //debug("Bytes received from UI: ");
-    //debugln(len);
-    if (selectedState.relay1Enabled != packetData.relay1Enabled || selectedState.relay2Enabled != packetData.relay2Enabled)
+
+    if (selectedState.relay1Enabled != packetData.relay1Enabled || selectedState.relay2Enabled != packetData.relay2Enabled || selectedState.alarmState != packetData.alarmState)
     {
         debugln("State chenge requested");
         state = STATE_TX;
