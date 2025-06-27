@@ -1,7 +1,7 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[AlarmUI.eez-project]:/userPages/2",
-    "selectedActionObject": "[AlarmUI.eez-project]:/actions/5",
+    "selectedUserPageObject": "[AlarmUI.eez-project]:/userPages/3",
+    "selectedActionObject": "[AlarmUI.eez-project]:/actions/6",
     "selectedGlobalVariableObject": "[AlarmUI.eez-project]:/variables/globalVariables/0",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
@@ -211,10 +211,10 @@
                 {
                   "type": "tab",
                   "id": "#f68f7044-245d-4d87-b3a3-fd5b4e5de764",
-                  "name": "Stats",
+                  "name": "Saver",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[AlarmUI.eez-project]:/userPages/2",
+                    "objectPath": "[AlarmUI.eez-project]:/userPages/3",
                     "permanent": false
                   },
                   "icon": "svg:page"
@@ -1054,16 +1054,34 @@
           "0": {
             "0": {}
           },
-          "1": {},
-          "7": {
+          "1": {
             "$selected": true
-          }
+          },
+          "7": {}
         }
       },
       "transform": {
         "translate": {
           "x": -520,
           "y": -293
+        },
+        "scale": 1
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[AlarmUI.eez-project]:/userPages/3[flow-state]": {
+      "selection": {
+        "0": {}
+      },
+      "transform": {
+        "translate": {
+          "x": -160,
+          "y": -120
         },
         "scale": 1
       },
