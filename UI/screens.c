@@ -227,6 +227,7 @@ void create_screen_settings() {
             lv_obj_set_pos(obj, 212, 60);
             lv_obj_set_size(obj, 50, 25);
             lv_obj_add_event_cb(obj, action_sw_state_changed, LV_EVENT_VALUE_CHANGED, (void *)0);
+            lv_obj_add_state(obj, LV_STATE_CHECKED);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff02effa), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_width(obj, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -238,6 +239,7 @@ void create_screen_settings() {
             lv_obj_set_pos(obj, 212, 100);
             lv_obj_set_size(obj, 50, 25);
             lv_obj_add_event_cb(obj, action_sw_state_changed, LV_EVENT_VALUE_CHANGED, (void *)1);
+            lv_obj_add_state(obj, LV_STATE_CHECKED);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff02effa), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_width(obj, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
