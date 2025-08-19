@@ -1,6 +1,6 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[AlarmUI.eez-project]:/userPages/3",
+    "selectedUserPageObject": "[AlarmUI.eez-project]:/userPages/0",
     "selectedActionObject": "[AlarmUI.eez-project]:/actions/6",
     "selectedGlobalVariableObject": "[AlarmUI.eez-project]:/variables/globalVariables/0",
     "subnavigationSelectedItems": {
@@ -211,16 +211,15 @@
                 {
                   "type": "tab",
                   "id": "#f68f7044-245d-4d87-b3a3-fd5b4e5de764",
-                  "name": "Saver",
+                  "name": "Main",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[AlarmUI.eez-project]:/userPages/3",
+                    "objectPath": "[AlarmUI.eez-project]:/userPages/0",
                     "permanent": false
                   },
                   "icon": "svg:page"
                 }
-              ],
-              "active": true
+              ]
             },
             {
               "type": "row",
@@ -240,7 +239,8 @@
                       "enableClose": false,
                       "icon": "svg:properties"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -1000,16 +1000,16 @@
     "[AlarmUI.eez-project]:/userPages/0[flow-state]": {
       "selection": {
         "0": {
-          "0": {
-            "$selected": true
-          },
+          "0": {},
           "1": {},
-          "2": {}
+          "3": {
+            "$selected": true
+          }
         }
       },
       "transform": {
         "translate": {
-          "x": -523,
+          "x": -456.20999999999987,
           "y": -288
         },
         "scale": 1
@@ -1027,11 +1027,11 @@
           "0": {
             "0": {}
           },
-          "1": {
-            "$selected": true
-          },
+          "1": {},
           "2": {},
-          "3": {}
+          "8": {
+            "$selected": true
+          }
         }
       },
       "transform": {
@@ -1056,13 +1056,12 @@
           },
           "1": {
             "$selected": true
-          },
-          "7": {}
+          }
         }
       },
       "transform": {
         "translate": {
-          "x": -520,
+          "x": -279.31999999999977,
           "y": -293
         },
         "scale": 1
