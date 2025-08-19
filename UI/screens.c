@@ -231,6 +231,7 @@ void create_screen_settings() {
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff02effa), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_width(obj, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xffff0000), LV_PART_INDICATOR | LV_STATE_CHECKED);
         }
         {
             // sw_relay2
@@ -243,6 +244,7 @@ void create_screen_settings() {
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff02effa), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_width(obj, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xffff0000), LV_PART_INDICATOR | LV_STATE_CHECKED);
         }
         {
             // lblNodeID_1
